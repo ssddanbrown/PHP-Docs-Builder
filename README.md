@@ -1,6 +1,6 @@
-# PHP Docs Build Container
+# PHP Docs Builder
 
-The project provides a container which:
+The project provides a docker container which:
 
 - Has the dependencies to build the PHP documentation.
 - Builds source documentation into a php.net mirror.
