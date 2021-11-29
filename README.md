@@ -18,6 +18,8 @@ host system that contains a `php/doc-<lang>` repository instance.
 docker run -itp 8080:8080 -v <DOCS_REPO>:/docs ghcr.io/ssddanbrown/php-docs-builder:latest
 ```
 
+You'd then be able to access the documentation via http://localhost:8080/manual/en.
+
 If a volume is not mounted, or if the mounted `<DOCS_REPO>` is empty, then the repository for the 
 configured language will be pulled down from GitHub on startup.
 
