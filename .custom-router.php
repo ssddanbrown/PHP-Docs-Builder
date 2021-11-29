@@ -1,4 +1,9 @@
 <?php
+
+// This custom router exists to provide control over the host and port
+// to align the site's variables to that which the container host
+// is intending to use.
+
 $_SERVER["SERVER_ADDR"] = 'localhost:8080';
 $_SERVER['SERVER_NAME'] = 'localhost';
 $_SERVER['SERVER_PORT'] = 8080;
