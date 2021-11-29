@@ -29,6 +29,6 @@ docker run -itp 8080:8080 -v /home/dan/web/php-docs-builder/docs:/docs <containe
 - [ ] ~Rebuild docs on file change.~ Too many issues, Added menu instead.
 - [x] Make menu and output friendlier.
 - [x] Make PHP server port configurable.
-- [ ] Make docs language configurable.
+- [x] Make docs language configurable.
 - [ ] Cleanup these docs.
 

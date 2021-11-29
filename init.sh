@@ -9,23 +9,29 @@ NC='\033[0m' # No Color
 
 # Env options
 export PORT="${PORT:-8080}"
+export LANG="${LANG:-en}"
 
 # Clone down docs repo if our expected volume is empty
 if ! [ "$(ls -A /docs)" ]; then
-    echo -e "${BLUE}No docs found, Cloning down latest documentation from GitHub${NC}"
-    git clone https://github.com/php/doc-en.git /docs
+    echo -e "${BLUE}No docs found, Cloning down latest ${LANG} documentation from GitHub${NC}"
+    git clone "https://github.com/php/doc-${LANG}.git" /docs
     chmod -R 777 /docs
 fi
 
+if [ ! "$LANG" == "en" ]; then
+    echo -e "${BLUE}Fetching EN documentation from GitHub${NC}"
+    git clone "https://github.com/php/doc-en.git" /phpdoc/en
+fi
+
 # Symlink docs into working directory
-ln -s /docs /phpdoc/en
+ln -s /docs "/phpdoc/$LANG"
 
 # Build docs
 docs_configure() {
     echo -e "${GREEN}Documentation configuring${NC}"
-    errmsg=`php /phpdoc/doc-base/configure.php 2>&1 > /dev/null`
+    errmsg=`php /phpdoc/doc-base/configure.php --with-lang=${LANG} 2>&1 > /dev/null`
     if [ ! -z "$errmsg" ]; then
-        echo -e "${RED}Configuring failed. Error:${NC}"
+        echo -e "${RED}Configuring complete with errors:${NC}"
         echo -e "$errmsg"
         return 1
     else
@@ -53,13 +59,23 @@ docs_render() {
 }
 
 # Symlink built docs into website
-rm -rf /phpdoc/web-php/manual/en && ln -s /phpdoc/php-web /phpdoc/web-php/manual/en
+rm -rf "/phpdoc/web-php/manual/$LANG" && ln -s /phpdoc/php-web "/phpdoc/web-php/manual/$LANG"
+
+# Run initial build on startup
+echo -e "${GREEN}Running initial ${LANG} build ${NC}"
+docs_configure
+docs_render
 
 # Serve PHP site using built-in webserver
 php -S "0.0.0.0:$PORT" -t /phpdoc/web-php /phpdoc/web-php/.custom-router.php > /dev/null 2>&1 &
 
 # Define the user menu
 menu="${BLUE}
+
+================
+PHP Docs Builder
+================
+Serving docs at: http://localhost:${PORT}/manual/${LANG}
 
 Press a key to perform an action:
 ${BLUE}- (${MAGENTA}b${BLUE})uild         ${NC}- Run both configure and render steps.
@@ -81,6 +97,9 @@ do
     elif [ "$key" == 'q' ]; then
         exit 0
     elif [ "$key" == 'b' ]; then
-        docs_configure && docs_render
+        # Don't depend on configure before running render
+        # since configure may complete with errors
+        docs_configure
+        docs_render
     fi
 done
