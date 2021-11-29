@@ -4,9 +4,10 @@
 // to align the site's variables to that which the container host
 // is intending to use.
 
-$_SERVER["SERVER_ADDR"] = 'localhost:8080';
+$port = intval(getenv('PORT') ?: 8080);
+$_SERVER["SERVER_ADDR"] = 'localhost:' . $port;
 $_SERVER['SERVER_NAME'] = 'localhost';
-$_SERVER['SERVER_PORT'] = 8080;
+$_SERVER['SERVER_PORT'] = $port;
 
 $filename = isset($_SERVER["PATH_INFO"]) ? $_SERVER["PATH_INFO"] : $_SERVER["SCRIPT_NAME"];
 

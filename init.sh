@@ -4,7 +4,11 @@
 RED='\033[1;31m'
 BLUE='\033[1;34m'
 GREEN='\033[1;32m'
+MAGENTA='\033[1;35m'
 NC='\033[0m' # No Color
+
+# Env options
+export PORT="${PORT:-8080}"
 
 # Clone down docs repo if our expected volume is empty
 if ! [ "$(ls -A /docs)" ]; then
@@ -52,16 +56,16 @@ docs_render() {
 rm -rf /phpdoc/web-php/manual/en && ln -s /phpdoc/php-web /phpdoc/web-php/manual/en
 
 # Serve PHP site using built-in webserver
-php -S 0.0.0.0:8080 -t /phpdoc/web-php /phpdoc/web-php/.custom-router.php > /dev/null 2>&1 &
+php -S "0.0.0.0:$PORT" -t /phpdoc/web-php /phpdoc/web-php/.custom-router.php > /dev/null 2>&1 &
 
 # Define the user menu
 menu="${BLUE}
 
 Press a key to perform an action:
-- (b)uild         - Run both configure and render steps.
-- (c)onfigure     - Validates and prepares the documentation XML.
-- (r)ender        - Render the docs to PHP for display.
-- (q)uit          - Quit this builder application.
+${BLUE}- (${MAGENTA}b${BLUE})uild         ${NC}- Run both configure and render steps.
+${BLUE}- (${MAGENTA}c${BLUE})onfigure     ${NC}- Validates and prepares the documentation XML.
+${BLUE}- (${MAGENTA}r${BLUE})ender        ${NC}- Render the docs to PHP for display.
+${BLUE}- (${MAGENTA}q${BLUE})uit          ${NC}- Quit this builder application.
 ${NC}
 "
 

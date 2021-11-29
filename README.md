@@ -11,6 +11,10 @@ To use this, mount a PHP docs repository as a volume to the `/docs` path
 of the container.
 
 
+### Env Options
+
+- PORT - Configure the port for the PHP webserver to run on.
+
 
 ### Dev Command
 
@@ -23,8 +27,8 @@ docker run -itp 8080:8080 -v /home/dan/web/php-docs-builder/docs:/docs <containe
 - [x] Define and pass through a custom volume mount for editing docs files.
   - [x] If empty, clone down the PHP doc files.
 - [ ] ~Rebuild docs on file change.~ Too many issues, Added menu instead.
-- [ ] Make menu and output friendlier.
-- [ ] Make PHP server port configurable.
+- [x] Make menu and output friendlier.
+- [x] Make PHP server port configurable.
 - [ ] Make docs language configurable.
 - [ ] Cleanup these docs.
 
