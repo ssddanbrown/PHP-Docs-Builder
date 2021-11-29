@@ -9,10 +9,14 @@ The project provides a docker container which:
 
 The process used by this container is based upon the process defined at http://doc.php.net/tutorial/local-setup.php.
 
+### Command Line Demo
+
+[![asciicast](https://asciinema.org/a/XNob6HPowsLWEgVsTyhkoSGVs.svg)](https://asciinema.org/a/XNob6HPowsLWEgVsTyhkoSGVs)
+
 ### Usage
 
 This container can be ran as per the example below, where `<DOCS_REPO>` is the path on your 
-host system that contains a `php/doc-<lang>` repository instance.
+host system that contains a `php/doc-<lang>` repository instance ([English Example](https://github.com/php/doc-en)).
 
 ```bash
 docker run -itp 8080:8080 -v <DOCS_REPO>:/docs ghcr.io/ssddanbrown/php-docs-builder:latest
